@@ -17,6 +17,7 @@ class Ht3g{
         $this->__construct($config);
     }
 
+    // POST 请求
     private function curl_post($url, $post_data){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 1);
