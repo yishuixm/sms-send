@@ -10,7 +10,7 @@ class Ht3g{
     function __construct($config){
         $this->_config['userid'] = $config['userid'];
         $this->_config['account'] = $config['account'];
-        $this->_config['password'] = $config['account'];
+        $this->_config['password'] = $config['password'];
     }
 
     function Ht3g($config){
