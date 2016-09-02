@@ -33,7 +33,7 @@ class Ht3g{
         $post_data['userid'] = urlencode($this->_config['userid']);
         $post_data['account'] = urlencode($this->_config['account']);
         $post_data['password'] = urlencode($this->_config['password']);
-        $post_data['content'] = urlencode($content); //短信内容需要用urlencode编码下
+        $post_data['content'] = $content; //短信内容需要用urlencode编码下
         $post_data['mobile'] = urlencode(implode(',',$mobile));
         $post_data['sendtime'] = urlencode(''); //不定时发送，值为0，定时发送，输入格式YYYYMMDDHHmmss的日期值
         $url='http://sms.ht3g.com/sms.aspx?action=send';
