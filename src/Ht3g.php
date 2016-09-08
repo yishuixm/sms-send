@@ -8,9 +8,9 @@ class Ht3g{
     private $_config;
 
     function __construct($config){
-        $this->_config['userid'] = $config['userid'];
-        $this->_config['account'] = $config['account'];
-        $this->_config['password'] = $config['password'];
+        $this->_config['userid'] = isset($config['userid'])?$config['userid']:'';
+        $this->_config['account'] = isset($config['account'])?$config['userid']:'';
+        $this->_config['password'] = isset($config['password'])?$config['userid']:'';
     }
 
     function Ht3g($config){
@@ -29,14 +29,25 @@ class Ht3g{
         return $result;
     }
 
-    function sendSms($mobile, $content){
+    /**
+     * 发送短信
+     * @param $mobile 手机号码为一个数组
+     * @param $content 发送的短信的内容
+     * @return mixed
+     */
+    function sendSms($mobile, $content, $sign){
         $post_data['userid'] = urlencode($this->_config['userid']);
         $post_data['account'] = urlencode($this->_config['account']);
         $post_data['password'] = urlencode($this->_config['password']);
-        $post_data['content'] = $content; //短信内容需要用urlencode编码下
+        $post_data['content'] = "{$content}【{$sign}】"; //短信内容需要用urlencode编码下
         $post_data['mobile'] = urlencode(implode(',',$mobile));
         $post_data['sendtime'] = urlencode(''); //不定时发送，值为0，定时发送，输入格式YYYYMMDDHHmmss的日期值
         $url='http://sms.ht3g.com/sms.aspx?action=send';
-        return $this->curl_post($url, $post_data);
+        $xml = $this->curl_post($url, $post_data);
+        $result = (array)simplexml_load_string($xml);
+        return [
+            "accessGranted"     => $result['returnstatus'] === 'Success',
+            "errors"            => $result['message']
+        ];
     }
 }
